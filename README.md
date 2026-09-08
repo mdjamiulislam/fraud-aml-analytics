@@ -337,7 +337,7 @@ Run the Python scripts sequentially from `02_python`.
 
 PostgreSQL database objects are created using the scripts in `03_sql`.
 
-Large raw data files, generated Parquet datasets, model-scoring files and database credentials are intentionally excluded from the repository.
+Large raw data files, generated Parquet datasets, model-scoring files and database credentials are intentionally excluded from the repository. The Power BI `.pbix` development file is retained locally; final dashboard outputs are provided through the five screenshots in `04_powerbi/screenshots/`.
 
 ---
 
