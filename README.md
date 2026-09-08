@@ -200,7 +200,7 @@ The final dashboard contains five reporting pages.
 
 ## 1. Executive Fraud Risk Overview
 
-![Executive Overview](01_Executive_Overview.png)
+![Executive Overview](04_powerbi/screenshots/01_Executive_Overview.png)
 
 Provides an executive view of transaction exposure, fraud volume, risk-tier concentration, transaction-type risk and model-vs-rule detection performance.
 
@@ -208,7 +208,7 @@ Provides an executive view of transaction exposure, fraud volume, risk-tier conc
 
 ## 2. Fraud Risk Drivers & Patterns
 
-![Risk Drivers and Patterns](02_Risk_Drivers_Patterns.png)
+![Risk Drivers and Patterns](04_powerbi/screenshots/02_Risk_Drivers_Patterns.png)
 
 Explores model feature importance, transaction-value risk, simulated-hour patterns and fraud activity across the out-of-time period.
 
@@ -216,7 +216,7 @@ Explores model feature importance, transaction-value risk, simulated-hour patter
 
 ## 3. Model Performance & Detection Effectiveness
 
-![Model Performance](03_Model_Performance.png)
+![Model Performance](04_powerbi/screenshots/03_Model_Performance.png)
 
 Compares the HistGradientBoosting champion, Logistic Regression challenger and existing rule using precision, recall, fraud detection, alert volume and classification outcomes.
 
@@ -224,7 +224,7 @@ Compares the HistGradientBoosting champion, Logistic Regression challenger and e
 
 ## 4. Investigation & Alert Operations
 
-![Investigation Operations](04_Investigation_Operations.png)
+![Investigation Operations](04_powerbi/screenshots/04_Investigation_Operations.png)
 
 Provides investigation-capacity analysis, risk-ranked alerts, review priorities and an operational investigator queue.
 
@@ -232,7 +232,7 @@ Provides investigation-capacity analysis, risk-ranked alerts, review priorities 
 
 ## 5. Data Quality, Governance & Methodology
 
-![Governance and Methodology](05_Governance_Methodology.png)
+![Governance and Methodology](04_powerbi/screenshots/05_Governance_Methodology.png)
 
 Documents the analytical pipeline, data-quality controls, temporal validation methodology and key model-governance limitations.
 
