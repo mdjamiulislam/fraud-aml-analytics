@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+.idea/
+*.pyc
+
+01_raw_data/*.csv
+
+05_outputs/*.csv
+05_outputs/*.parquet
