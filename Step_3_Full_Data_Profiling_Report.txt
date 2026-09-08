@@ -1,0 +1,59 @@
+PROJECT 5 - FULL DATA PROFILING REPORT
+======================================================================
+
+OVERALL PROFILE
+
+                              Metric        Value
+                          Total rows 6.362620e+06
+                       Total columns 1.100000e+01
+                        Minimum step 1.000000e+00
+                        Maximum step 7.430000e+02
+             Total transaction value 1.144393e+12
+          Average transaction amount 1.798619e+05
+          Minimum transaction amount 0.000000e+00
+          Maximum transaction amount 9.244552e+07
+                  Fraud transactions 8.213000e+03
+                      Fraud rate (%) 1.290820e-01
+             Fraud transaction value 1.205642e+10
+               Fraud value share (%) 1.053521e+00
+                Flagged transactions 1.600000e+01
+                  Flag precision (%) 1.000000e+02
+                     Flag recall (%) 1.948131e-01
+              Unique origin accounts 6.353307e+06
+         Unique destination accounts 2.722362e+06
+                      Duplicate rows 0.000000e+00
+Estimated full DataFrame memory (MB) 1.452567e+03
+
+MISSING VALUES
+
+        Column  Missing_Count  Missing_Percentage
+          step              0                 0.0
+          type              0                 0.0
+        amount              0                 0.0
+      nameOrig              0                 0.0
+ oldbalanceOrg              0                 0.0
+newbalanceOrig              0                 0.0
+      nameDest              0                 0.0
+oldbalanceDest              0                 0.0
+newbalanceDest              0                 0.0
+       isFraud              0                 0.0
+isFlaggedFraud              0                 0.0
+
+TRANSACTION TYPE ANALYSIS
+
+Transaction_Type  Transaction_Count  Transaction_Value  Fraud_Count  Fraud_Value  Fraud_Rate_Pct  Fraud_Value_Rate_Pct
+         CASH_IN            1399284       2.363674e+11            0 0.000000e+00        0.000000              0.000000
+        CASH_OUT            2237500       3.944130e+11         4116 5.989202e+09        0.183955              1.518510
+           DEBIT              41432       2.271992e+08            0 0.000000e+00        0.000000              0.000000
+         PAYMENT            2151495       2.809337e+10            0 0.000000e+00        0.000000              0.000000
+        TRANSFER             532909       4.852920e+11         4097 6.067213e+09        0.768799              1.250219
+
+FLAGGING SYSTEM PERFORMANCE
+
+                     Metric        Value
+              True Positive 1.600000e+01
+             False Positive 0.000000e+00
+              True Negative 6.354407e+06
+             False Negative 8.197000e+03
+              Precision (%) 1.000000e+02
+Recall / Detection Rate (%) 1.948131e-01

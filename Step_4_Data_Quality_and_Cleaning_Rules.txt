@@ -1,0 +1,86 @@
+PROJECT 5 - STEP 4
+DATA QUALITY ASSESSMENT & CLEANING RULES
+========================================================================
+
+DATA QUALITY AUDIT
+
+                              Check   Count
+                         Total rows 6362620
+           Zero transaction amounts      16
+       Negative transaction amounts       0
+     Zero-amount fraud transactions      16
+Zero-amount legitimate transactions       0
+                Invalid step values       0
+          Invalid transaction types       0
+             Invalid isFraud values       0
+      Invalid isFlaggedFraud values       0
+                   Blank origin IDs       0
+              Blank destination IDs       0
+          Non-finite numeric values       0
+ Outgoing origin-balance mismatches 3667141
+  CASH_IN origin-balance mismatches  110676
+
+BALANCE SUMMARY
+
+        Column  Zero_Count  Zero_Percentage  Negative_Count
+ oldbalanceOrg     2102449        33.043762               0
+newbalanceOrig     3609566        56.730812               0
+oldbalanceDest     2704388        42.504314               0
+newbalanceDest     2439433        38.340071               0
+
+BALANCE CONSISTENCY
+
+                             Check   Count
+     Outgoing transactions checked 4963336
+Outgoing origin-balance mismatches 3667141
+      CASH_IN transactions checked 1399284
+ CASH_IN origin-balance mismatches  110676
+
+IDENTIFIER PREFIXES
+
+Prefix  Origin_Count  Destination_Count
+     C       6362620            4211125
+     M             0            2151495
+
+HIGH VALUE PROFILE
+
+Transaction_Type  Total_Transactions  Transactions_Above_200k  Fraud_Above_200k
+         CASH_IN             1399284                   475868                 0
+        CASH_OUT             2237500                   788559              2731
+           DEBIT               41432                       27                 0
+         PAYMENT             2151495                        6                 0
+        TRANSFER              532909                   409110              2740
+
+FIELD DECISION REGISTER
+
+         Field                        Business_Role    Data_Treatment                 Primary_Model_Use                                             Notes
+          step                   Transaction timing              KEEP                               YES                    Later derive day/hour features
+          type                 Transaction category              KEEP                               YES                   Later encode categorical values
+        amount                    Transaction value              KEEP                               YES      Do not delete high values simply as outliers
+      nameOrig                    Origin identifier        KEEP AS ID               NO - raw identifier  Can support investigation or historical features
+      nameDest               Destination identifier        KEEP AS ID               NO - raw identifier         Can support destination/merchant features
+ oldbalanceOrg       Pre-transaction origin balance              KEEP         YES - candidate predictor Compare models with and without balance variables
+newbalanceOrig      Post-transaction origin balance KEEP FOR EDA ONLY NO - post-transaction information                     Potential operational leakage
+oldbalanceDest  Pre-transaction destination balance              KEEP         YES - candidate predictor Compare models with and without balance variables
+newbalanceDest Post-transaction destination balance KEEP FOR EDA ONLY NO - post-transaction information                     Potential operational leakage
+       isFraud                        Fraud outcome       TARGET ONLY            NO - prediction target                          Ground-truth fraud label
+isFlaggedFraud             Existing rule-based flag    BENCHMARK ONLY         NO - existing rule output          Used to benchmark current detection rule
+
+CLEANING RULE REGISTER
+
+                          Issue                                 Proposed_Action                                                             Reason
+                 Missing values     Investigate; remove/impute only if required                      No assumption should be made before profiling
+           Exact duplicate rows            Remove exact duplicates if any exist                       Duplicates can bias volume and model results
+    Negative transaction amount           Treat as invalid and exclude if found                         Transaction amounts should not be negative
+        Zero transaction amount                     Investigate before deciding                  Zero may represent a valid or unusual transaction
+       Invalid transaction type           Treat as invalid and exclude if found                    Only five documented transaction types expected
+                   Invalid step           Treat as invalid and exclude if found                              Dataset period is steps 1 through 743
+            Invalid fraud label  Treat as invalid because target must be binary                                       isFraud is the binary target
+          Invalid existing flag                 Treat as invalid if outside 0/1                                       Existing flag must be 0 or 1
+      Blank account identifiers        Investigate and exclude if truly missing                                   Identifiers support traceability
+                  Zero balances        RETAIN - zero is not the same as missing                       Zero balances can be valid structural values
+        Balance inconsistencies              RETAIN and create diagnostic flags   Mismatch may reflect simulation/business behaviour, not bad data
+ Very large transaction amounts           RETAIN - important for fraud analysis                      Fraud cases are disproportionately high value
+Post-transaction balance fields     Keep for EDA but exclude from primary model                They describe balances after transaction completion
+        Raw account identifiers Keep as identifiers; exclude raw IDs from model                    High-cardinality raw IDs do not generalise well
+      CASH_IN / DEBIT / PAYMENT               Keep in master analytical dataset Required for overall reporting even though fraud is absent in them

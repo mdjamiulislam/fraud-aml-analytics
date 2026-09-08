@@ -1,0 +1,80 @@
+PROJECT 5 - STEP 11
+FRAUD RISK TIERS & INVESTIGATOR ALERT QUEUE
+====================================================================================
+
+RISK TIER METHODOLOGY
+
+Risk tiers are based on model-score percentiles from the validation period.
+
+Critical = top 0.5% of validation scores.
+High = 99th to 99.5th percentile.
+Medium = 95th to 99th percentile.
+Low = below the 95th percentile.
+
+These are relative model-risk tiers, not calibrated probabilities.
+
+The operational investigation threshold remains the validation-F2 threshold selected in Step 10.
+
+
+RISK TIER THRESHOLDS
+
+                     Threshold_Type                             Source  Score_Threshold
+              Medium Risk Threshold         Validation 95th percentile         0.030972
+                High Risk Threshold         Validation 99th percentile         0.613207
+            Critical Risk Threshold       Validation 99.5th percentile         0.804194
+Operational Investigation Threshold Step 10 Validation F2 optimisation         0.962143
+
+RISK TIER SUMMARY
+
+Risk_Tier  Transaction_Count  Population_Pct  Average_Model_Score  Transaction_Value  Fraud_Count  Fraud_Rate_Pct  Fraud_Capture_Pct  Fraud_Value  Fraud_Value_Capture_Pct  Operational_Alerts
+ Critical               6624        1.198905             0.948882       7.128368e+09         3962       59.812802          93.048380 6.669715e+09                99.509452                4022
+     High               3112        0.563254             0.712836       3.817211e+08          152        4.884319           3.569751 1.962519e+07                 0.292800                   0
+   Medium              24586        4.449923             0.194463       3.120067e+09          138        0.561295           3.240958 1.254396e+07                 0.187151                   0
+      Low             518182       93.787918             0.001088       1.593829e+11            6        0.001158           0.140911 7.102851e+05                 0.010597                   0
+
+OPERATIONAL ALERT PERFORMANCE
+
+                                  Metric         Value
+                       Test transactions 552504.000000
+               Actual fraud transactions   4258.000000
+                   Champion model alerts   4022.000000
+           Champion model alert rate (%)      0.727959
+           Champion model true positives   3609.000000
+          Champion model false positives    413.000000
+          Champion model false negatives    649.000000
+            Champion model precision (%)     89.731477
+               Champion model recall (%)     84.758102
+                       Champion model F1      0.871739
+                       Champion model F2      0.857082
+                      Legacy rule alerts     13.000000
+              Legacy rule true positives     13.000000
+             Legacy rule false positives      0.000000
+             Legacy rule false negatives   4245.000000
+               Legacy rule precision (%)    100.000000
+                  Legacy rule recall (%)      0.305308
+Additional fraud detected vs legacy rule   3596.000000
+       Detection multiple vs legacy rule    277.615385
+
+INVESTIGATION CAPACITY ANALYSIS
+
+ Investigation_Capacity  Alerts_Reviewed  Fraud_Found  Precision_Pct  Total_Test_Fraud_Captured_Pct
+                    100              100          100     100.000000                       2.348520
+                    250              250          250     100.000000                       5.871301
+                    500              500          500     100.000000                      11.742602
+                   1000             1000         1000     100.000000                      23.485204
+                   2000             2000         1997      99.850000                      46.899953
+                   4022             4022         3609      89.731477                      84.758102
+
+MODEL GOVERNANCE NOTES
+
+1. Risk-tier thresholds were developed using validation scores only.
+
+2. The final test period was not used to define tier thresholds or the operational alert threshold.
+
+3. HGB model scores are ranking scores, not calibrated real-world fraud probabilities.
+
+4. The investigator-facing queue excludes the actual fraud label because that value would not be known in live operations.
+
+5. The evaluation queue retains isFraud only to measure model performance in this synthetic portfolio project.
+
+6. Risk tiers help prioritisation; the separate operational threshold determines which transactions are formally alerted.

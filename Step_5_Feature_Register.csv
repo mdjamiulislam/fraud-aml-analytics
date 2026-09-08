@@ -1,0 +1,26 @@
+Feature,Purpose,Primary_Model_Use
+transaction_id,Unique transaction key,NO - traceability only
+step,Simulation time step,CANDIDATE
+transaction_day,Derived simulation day,YES
+hour_of_day,Derived simulated hour,YES
+type,Transaction category,YES
+amount,Original transaction value,YES
+log_amount,Log-transformed transaction value,YES
+oldbalanceOrg,Pre-transaction origin balance,YES
+oldbalanceDest,Pre-transaction destination balance,YES
+zero_amount_flag,Flags amount equal to zero,YES
+high_value_200k_flag,Flags amount above 200k,YES
+origin_zero_before_flag,Flags zero origin balance before transaction,YES
+destination_zero_before_flag,Flags zero destination balance before transaction,YES
+amount_exceeds_origin_balance_flag,Flags transaction amount above origin balance,YES
+destination_is_merchant,Identifies merchant destination,YES
+amount_to_origin_balance_ratio,Transaction amount relative to origin balance,CANDIDATE
+amount_to_destination_balance_ratio,Transaction amount relative to destination balance,CANDIDATE
+origin_balance_error_abs,Retrospective origin balance diagnostic,NO - post-transaction diagnostic
+origin_balance_mismatch_flag,Retrospective balance mismatch indicator,NO - post-transaction diagnostic
+newbalanceOrig,Post-transaction origin balance,NO - post-transaction
+newbalanceDest,Post-transaction destination balance,NO - post-transaction
+nameOrig,Raw origin identifier,NO - raw high-cardinality ID
+nameDest,Raw destination identifier,NO - raw high-cardinality ID
+isFlaggedFraud,Existing rule-based fraud flag,NO - benchmark only
+isFraud,Actual fraud target,TARGET ONLY

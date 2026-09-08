@@ -1,0 +1,12 @@
+Field,Business_Role,Data_Treatment,Primary_Model_Use,Notes
+step,Transaction timing,KEEP,YES,Later derive day/hour features
+type,Transaction category,KEEP,YES,Later encode categorical values
+amount,Transaction value,KEEP,YES,Do not delete high values simply as outliers
+nameOrig,Origin identifier,KEEP AS ID,NO - raw identifier,Can support investigation or historical features
+nameDest,Destination identifier,KEEP AS ID,NO - raw identifier,Can support destination/merchant features
+oldbalanceOrg,Pre-transaction origin balance,KEEP,YES - candidate predictor,Compare models with and without balance variables
+newbalanceOrig,Post-transaction origin balance,KEEP FOR EDA ONLY,NO - post-transaction information,Potential operational leakage
+oldbalanceDest,Pre-transaction destination balance,KEEP,YES - candidate predictor,Compare models with and without balance variables
+newbalanceDest,Post-transaction destination balance,KEEP FOR EDA ONLY,NO - post-transaction information,Potential operational leakage
+isFraud,Fraud outcome,TARGET ONLY,NO - prediction target,Ground-truth fraud label
+isFlaggedFraud,Existing rule-based flag,BENCHMARK ONLY,NO - existing rule output,Used to benchmark current detection rule

@@ -1,0 +1,19 @@
+Feature,Baseline_Logistic_Decision,Reason
+transaction_id,EXCLUDE,Identifier only; no predictive meaning
+step,SPLIT CONTROL ONLY,Used to enforce chronological split; overlaps with transaction_day
+transaction_day,KEEP,Captures simulation-period effects
+hour_of_day,KEEP,Captures simulation-hour effects
+type,KEEP,TRANSFER versus CASH_OUT risk difference
+amount,EXCLUDE FROM BASELINE,Highly skewed; log_amount is preferred for interpretable baseline
+log_amount,KEEP,Reduces amount skew while preserving transaction-value signal
+oldbalanceOrg,TRANSFORM LOG1P,Pre-transaction feature; log-transform before scaling
+oldbalanceDest,TRANSFORM LOG1P,Pre-transaction feature; log-transform before scaling
+zero_amount_flag,KEEP,"Retained because all 16 zero-amount cases are fraud, but extremely rare"
+high_value_200k_flag,KEEP,Strong interpretable high-value risk indicator
+origin_zero_before_flag,KEEP,Observed inverse association may carry useful signal
+destination_zero_before_flag,KEEP,Observed positive fraud-rate lift
+amount_exceeds_origin_balance_flag,KEEP,Observed strong inverse association; evaluate coefficient carefully
+destination_is_merchant,DROP IF REDUNDANT,Expected to have little/no variation in CASH_OUT + TRANSFER population
+amount_to_origin_balance_ratio,HOLD OUT FROM BASELINE,High missingness/skew possible; evaluate after baseline
+amount_to_destination_balance_ratio,HOLD OUT FROM BASELINE,High missingness/skew possible; evaluate after baseline
+isFraud,TARGET,Fraud prediction target only

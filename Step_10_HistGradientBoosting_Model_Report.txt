@@ -1,0 +1,76 @@
+PROJECT 5 - STEP 10
+HISTGRADIENTBOOSTING FRAUD MODEL
+==================================================================================
+
+TEMPORAL SPLIT
+
+     Split    Rows  Population_Pct  Fraud_Count  Fraud_Rate_Pct  Minimum_Step  Maximum_Step
+     TRAIN 1938484       69.971040         3633        0.187414             1           322
+VALIDATION  279421       10.085912          322        0.115238           323           354
+      TEST  552504       19.943048         4258        0.770673           355           743
+
+FEATURE SET
+
+- type_transfer_flag
+- log_amount
+- log_oldbalanceOrg
+- log_oldbalanceDest
+- hour_sin
+- hour_cos
+- high_value_200k_flag
+
+
+HGB VALIDATION THRESHOLD
+
+Selected threshold: 0.96214284
+Validation precision: 0.687831
+Validation recall: 0.807453
+Validation F2: 0.780312
+
+
+FINAL MODEL COMPARISON
+
+                                     Model  Threshold  ROC_AUC  Average_Precision  Accuracy  Precision   Recall       F1       F2  True_Negative  False_Positive  False_Negative  True_Positive  Alerts  Alert_Rate_Pct  False_Positive_Rate_Pct
+HistGradientBoosting - Defensible Features   0.962143 0.998596           0.930645  0.998078   0.897315 0.847581 0.871739 0.857082         547833             413             649           3609    4022        0.727959                 0.075331
+             Logistic Regression - Model B   0.927947 0.965286           0.468819  0.990567   0.411107 0.518084 0.458437 0.492455         545086            3160            2052           2206    5366        0.971215                 0.576384
+              Existing isFlaggedFraud Rule        NaN      NaN                NaN  0.992317   1.000000 0.003053 0.006088 0.003813         548246               0            4245             13      13        0.002353                 0.000000
+
+HGB VS LOGISTIC MODEL B
+
+           Metric   HGB_Value  Model_B_Value  HGB_Minus_Model_B
+          ROC_AUC    0.998596       0.965286           0.033310
+Average_Precision    0.930645       0.468819           0.461826
+        Precision    0.897315       0.411107           0.486208
+           Recall    0.847581       0.518084           0.329497
+               F1    0.871739       0.458437           0.413302
+               F2    0.857082       0.492455           0.364627
+    True_Positive 3609.000000    2206.000000        1403.000000
+   False_Positive  413.000000    3160.000000       -2747.000000
+   False_Negative  649.000000    2052.000000       -1403.000000
+           Alerts 4022.000000    5366.000000       -1344.000000
+   Alert_Rate_Pct    0.727959       0.971215          -0.243256
+
+PERMUTATION IMPORTANCE
+
+             Feature  Importance_Mean  Importance_STD
+   log_oldbalanceOrg         0.808522        0.004257
+          log_amount         0.787164        0.014008
+  log_oldbalanceDest         0.417248        0.035988
+  type_transfer_flag         0.245122        0.008532
+            hour_cos         0.081593        0.005655
+            hour_sin         0.074949        0.002007
+high_value_200k_flag         0.001989        0.002087
+
+MODEL GOVERNANCE NOTES
+
+1. HistGradientBoosting and Logistic Regression Model B use exactly the same seven defensible features.
+
+2. Both models use the same chronological Train / Validation / Test populations.
+
+3. HistGradientBoosting threshold selection uses validation F2 only. Test data remains untouched until final evaluation.
+
+4. The tree model deliberately excludes zero_amount_flag and amount_exceeds_origin_balance_flag because Step 9 showed these may exploit PaySim-specific synthetic behaviour.
+
+5. HistGradientBoosting does not require standardisation because tree splits are not scale-dependent.
+
+6. Permutation importance is calculated on a validation sample and should be interpreted as diagnostic model importance, not causal importance.

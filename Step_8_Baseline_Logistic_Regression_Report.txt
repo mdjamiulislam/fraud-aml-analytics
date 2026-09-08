@@ -1,0 +1,48 @@
+PROJECT 5 - STEP 8
+BASELINE LOGISTIC REGRESSION FRAUD MODEL
+================================================================================
+
+TEMPORAL SPLIT
+
+     Split    Rows  Population_Pct  Fraud_Count  Fraud_Rate_Pct  Minimum_Step  Maximum_Step
+     TRAIN 1938484       69.971040         3633        0.187414             1           322
+VALIDATION  279421       10.085912          322        0.115238           323           354
+      TEST  552504       19.943048         4258        0.770673           355           743
+
+SELECTED VALIDATION THRESHOLD
+
+Threshold: 0.94954938
+Validation Precision: 0.077812
+Validation Recall: 0.397516
+Validation F2: 0.218207
+
+
+TEST MODEL COMPARISON
+
+                                        Model  Threshold  ROC_AUC  Average_Precision  Accuracy  Precision   Recall       F1       F2  Specificity  True_Negative  False_Positive  False_Negative  True_Positive  Alerts  Alert_Rate_Pct  False_Positive_Rate_Pct
+         Logistic Regression - 0.50 Threshold   0.500000 0.967546           0.365709  0.878595   0.055629 0.923438 0.104936 0.224135     0.878246         481495           66751             326           3932   70683       12.793211                12.175374
+Logistic Regression - Validation F2 Threshold   0.949549 0.967546           0.365709  0.987960   0.323555 0.515500 0.397573 0.460825     0.991630         543657            4589            2063           2195    6784        1.227864                 0.837033
+                 Existing isFlaggedFraud Rule        NaN      NaN                NaN  0.992317   1.000000 0.003053 0.006088 0.003813     1.000000         548246               0            4245             13      13        0.002353                 0.000000
+
+LOGISTIC REGRESSION COEFFICIENTS
+
+                             Feature  Coefficient   Odds_Ratio  Absolute_Coefficient
+     binary__origin_zero_before_flag     9.629474 15206.430664              9.629474
+       continuous__log_oldbalanceOrg     6.371742   585.076294              6.371742
+          binary__type_transfer_flag     1.029766     2.800410              1.029766
+              continuous__log_amount    -0.920056     0.398497              0.920056
+                continuous__hour_sin     0.676123     1.966240              0.676123
+                continuous__hour_cos     0.673610     1.961306              0.673610
+      continuous__log_oldbalanceDest    -0.628328     0.533483              0.628328
+        binary__high_value_200k_flag     0.491399     1.634601              0.491399
+binary__destination_zero_before_flag    -0.274884     0.759660              0.274884
+
+MODEL GOVERNANCE NOTES
+
+1. The model uses a chronological train/validation/test design.
+2. Split boundaries were selected using transaction counts while keeping complete simulation steps together.
+3. Threshold selection used validation data only. The final test set remained untouched until evaluation.
+4. Logistic Regression used class_weight='balanced' to address severe class imbalance.
+5. The selected operating threshold maximises validation F2, placing greater weight on fraud recall.
+6. Post-transaction balances, isFlaggedFraud, raw identifiers, zero_amount_flag and the highly simulation-specific amount_exceeds_origin_balance_flag were excluded from the baseline model.
+7. Because class weighting changes the probability scale, fraud_score should be treated as a model ranking score rather than a fully calibrated real-world fraud probability.

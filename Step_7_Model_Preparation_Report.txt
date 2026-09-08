@@ -1,0 +1,120 @@
+PROJECT 5 - STEP 7
+HIGH-RISK POPULATION ANALYSIS AND MODEL PREPARATION
+==============================================================================
+
+POPULATION SUMMARY
+
+                 Metric        Value
+           Parquet rows 2.770409e+06
+         Rows processed 2.770409e+06
+            Total fraud 8.213000e+03
+Legitimate transactions 2.762196e+06
+         Fraud rate (%) 2.964544e-01
+           Minimum step 1.000000e+00
+           Maximum step 7.430000e+02
+
+HIGH-RISK TRANSACTION TYPES
+
+Transaction_Type  Transaction_Count  Transaction_Value  Fraud_Count  Fraud_Value  Fraud_Rate_Pct
+        CASH_OUT            2237500       3.944130e+11         4116 5.989202e+09        0.183955
+        TRANSFER             532909       4.852920e+11         4097 6.067213e+09        0.768799
+
+FEATURE MISSINGNESS
+
+                            Feature  Missing_Count  Missing_Pct
+                     transaction_id              0     0.000000
+                               step              0     0.000000
+                    transaction_day              0     0.000000
+                        hour_of_day              0     0.000000
+                               type              0     0.000000
+                             amount              0     0.000000
+                         log_amount              0     0.000000
+                      oldbalanceOrg              0     0.000000
+                     oldbalanceDest              0     0.000000
+                   zero_amount_flag              0     0.000000
+               high_value_200k_flag              0     0.000000
+            origin_zero_before_flag              0     0.000000
+       destination_zero_before_flag              0     0.000000
+ amount_exceeds_origin_balance_flag              0     0.000000
+            destination_is_merchant              0     0.000000
+     amount_to_origin_balance_ratio        1308582    47.234253
+amount_to_destination_balance_ratio         389320    14.052799
+                            isFraud              0     0.000000
+
+BINARY FLAG ANALYSIS
+
+                           Feature  Flag_True_Count  Fraud_When_True  Fraud_Rate_True_Pct  Flag_False_Count  Fraud_When_False  Fraud_Rate_False_Pct  Fraud_Rate_Lift
+                  zero_amount_flag               16               16           100.000000           2770393              8197              0.295879       337.976455
+              high_value_200k_flag          1197669             5471             0.456804           1572740              2742              0.174345         2.620109
+           origin_zero_before_flag          1308582               41             0.003133           1461827              8172              0.559026         0.005605
+      destination_zero_before_flag           389320             5351             1.374448           2381089              2862              0.120197        11.434949
+amount_exceeds_origin_balance_flag          2488634               29             0.001165            281775              8184              2.904445         0.000401
+           destination_is_merchant                0                0             0.000000           2770409              8213              0.296454         0.000000
+
+NUMERIC CLASS COMPARISON
+
+                            Feature      Class  Valid_Count  Missing_Count         Mean      Minimum      Maximum
+                    transaction_day Legitimate      2762196              0 1.042319e+01 1.000000e+00 3.000000e+01
+                    transaction_day      Fraud         8213              0 1.583295e+01 1.000000e+00 3.100000e+01
+                        hour_of_day Legitimate      2762196              0 1.447562e+01 0.000000e+00 2.300000e+01
+                        hour_of_day      Fraud         8213              0 1.142311e+01 0.000000e+00 2.300000e+01
+                             amount Legitimate      2762196              0 3.141155e+05 1.000000e-02 9.244552e+07
+                             amount      Fraud         8213              0 1.467967e+06 0.000000e+00 1.000000e+07
+                         log_amount Legitimate      2762196              0 1.192493e+01 9.950331e-03 1.834213e+01
+                         log_amount      Fraud         8213              0 1.289203e+01 0.000000e+00 1.611810e+01
+                      oldbalanceOrg Legitimate      2762196              0 4.287969e+04 0.000000e+00 4.381886e+07
+                      oldbalanceOrg      Fraud         8213              0 1.649668e+06 0.000000e+00 5.958504e+07
+                     oldbalanceDest Legitimate      2762196              0 1.706998e+06 0.000000e+00 3.560159e+08
+                     oldbalanceDest      Fraud         8213              0 5.442496e+05 0.000000e+00 2.362305e+08
+     amount_to_origin_balance_ratio Legitimate      1453655        1308541 2.773737e+02 2.782838e-06 3.925476e+06
+     amount_to_origin_balance_ratio      Fraud         8172             41 9.987650e-01 3.837324e-02 2.952662e+01
+amount_to_destination_balance_ratio Legitimate      2378227         383969 1.050746e+01 3.805279e-08 4.276570e+06
+amount_to_destination_balance_ratio      Fraud         2862           5351 6.989542e+01 0.000000e+00 1.033255e+05
+
+TEMPORAL SPLIT
+
+     Split Step_Range    Rows  Population_Pct  Fraud_Count  Fraud_Rate_Pct
+     TRAIN      1-520 2653729       95.788347         5781        0.217844
+VALIDATION    521-594   65394        2.360446          778        1.189712
+      TEST    595-743   51286        1.851207         1654        3.225052
+
+FEATURE VARIATION
+
+                           Feature  Unique_Values                     Value_Distribution
+                              type              2 CASH_OUT: 2,237,500; TRANSFER: 532,909
+                  zero_amount_flag              2                    0: 2,770,393; 1: 16
+              high_value_200k_flag              2             0: 1,572,740; 1: 1,197,669
+           origin_zero_before_flag              2             0: 1,461,827; 1: 1,308,582
+      destination_zero_before_flag              2               0: 2,381,089; 1: 389,320
+amount_exceeds_origin_balance_flag              2               0: 281,775; 1: 2,488,634
+           destination_is_merchant              1                           0: 2,770,409
+
+BASELINE FEATURE DECISIONS
+
+                            Feature Baseline_Logistic_Decision                                                                  Reason
+                     transaction_id                    EXCLUDE                                  Identifier only; no predictive meaning
+                               step         SPLIT CONTROL ONLY      Used to enforce chronological split; overlaps with transaction_day
+                    transaction_day                       KEEP                                      Captures simulation-period effects
+                        hour_of_day                       KEEP                                        Captures simulation-hour effects
+                               type                       KEEP                                TRANSFER versus CASH_OUT risk difference
+                             amount      EXCLUDE FROM BASELINE       Highly skewed; log_amount is preferred for interpretable baseline
+                         log_amount                       KEEP           Reduces amount skew while preserving transaction-value signal
+                      oldbalanceOrg            TRANSFORM LOG1P                   Pre-transaction feature; log-transform before scaling
+                     oldbalanceDest            TRANSFORM LOG1P                   Pre-transaction feature; log-transform before scaling
+                   zero_amount_flag                       KEEP Retained because all 16 zero-amount cases are fraud, but extremely rare
+               high_value_200k_flag                       KEEP                          Strong interpretable high-value risk indicator
+            origin_zero_before_flag                       KEEP                    Observed inverse association may carry useful signal
+       destination_zero_before_flag                       KEEP                                       Observed positive fraud-rate lift
+ amount_exceeds_origin_balance_flag                       KEEP     Observed strong inverse association; evaluate coefficient carefully
+            destination_is_merchant          DROP IF REDUNDANT  Expected to have little/no variation in CASH_OUT + TRANSFER population
+     amount_to_origin_balance_ratio     HOLD OUT FROM BASELINE                 High missingness/skew possible; evaluate after baseline
+amount_to_destination_balance_ratio     HOLD OUT FROM BASELINE                 High missingness/skew possible; evaluate after baseline
+                            isFraud                     TARGET                                            Fraud prediction target only
+
+MODEL GOVERNANCE NOTES
+
+1. The final test period must remain untouched during model development.
+2. Any imputation, scaling, encoding, or class balancing must be fitted only on training data.
+3. Post-transaction balances and isFlaggedFraud are excluded from the primary model to reduce leakage risk.
+4. Accuracy is not an appropriate primary metric because fraud is highly imbalanced.
+5. Threshold selection must use validation data, not the final test data.

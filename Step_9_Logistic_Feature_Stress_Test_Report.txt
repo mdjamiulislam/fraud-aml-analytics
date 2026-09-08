@@ -1,0 +1,55 @@
+PROJECT 5 - STEP 9
+LOGISTIC REGRESSION FEATURE STRESS TEST
+==================================================================================
+
+STEP 8 SPLIT USED
+
+     Split    Rows  Population_Pct  Fraud_Count  Fraud_Rate_Pct  Minimum_Step  Maximum_Step
+     TRAIN 1938484       69.971040         3633        0.187414             1           322
+VALIDATION  279421       10.085912          322        0.115238           323           354
+      TEST  552504       19.943048         4258        0.770673           355           743
+
+MODEL COMPARISON
+
+                     Model  Feature_Count  Validation_Threshold  Validation_Precision  Validation_Recall  Validation_F2  ROC_AUC  Average_Precision  Accuracy  Precision   Recall       F1       F2  True_Negative  False_Positive  False_Negative  True_Positive  Alerts  Alert_Rate_Pct  False_Positive_Rate_Pct
+   Model_D_Enhanced_PaySim             11              0.979590              0.481579           0.568323       0.548561 0.996523           0.789711  0.996275   0.859242 0.617896 0.718852 0.654673         547815             431            1627           2631    3062        0.554204                 0.078614
+ Model_B_Log_Balances_Only              7              0.927947              0.131687           0.397516       0.283186 0.965286           0.468819  0.990567   0.411107 0.518084 0.458437 0.492455         545086            3160            2052           2206    5366        0.971215                 0.576384
+  Model_A_Current_Baseline              9              0.949549              0.077812           0.397516       0.218207 0.967546           0.365709  0.987960   0.323555 0.515500 0.397573 0.460825         543657            4589            2063           2195    6784        1.227864                 0.837033
+Model_C_Balance_Flags_Only              7              0.953220              0.190616           0.201863       0.199509 0.917632           0.351818  0.992453   0.518803 0.285110 0.367990 0.313339         547120            1126            3044           1214    2340        0.423526                 0.205382
+
+DELTA VS MODEL A
+
+                     Model  ROC_AUC_Delta_vs_A  Average_Precision_Delta_vs_A  Precision_Delta_vs_A  Recall_Delta_vs_A  F2_Delta_vs_A  Alert_Rate_Delta_vs_A  True_Positive_Delta_vs_A  False_Positive_Delta_vs_A
+   Model_D_Enhanced_PaySim            0.028978                      0.424002              0.535687           0.102395       0.193848              -0.673660                       436                      -4158
+ Model_B_Log_Balances_Only           -0.002260                      0.103110              0.087552           0.002583       0.031630              -0.256650                        11                      -1429
+  Model_A_Current_Baseline            0.000000                      0.000000              0.000000           0.000000       0.000000               0.000000                         0                          0
+Model_C_Balance_Flags_Only           -0.049914                     -0.013891              0.195248          -0.230390      -0.147486              -0.804338                      -981                      -3463
+
+COEFFICIENT STABILITY
+
+                                   Feature  Model_A_Current_Baseline  Model_B_Log_Balances_Only  Model_C_Balance_Flags_Only  Model_D_Enhanced_PaySim
+binary__amount_exceeds_origin_balance_flag                       NaN                        NaN                         NaN               -25.097982
+      binary__destination_zero_before_flag                 -0.274884                        NaN                    1.457153                -1.655948
+              binary__high_value_200k_flag                  0.491399                   0.477784                    0.106387                 1.445197
+           binary__origin_zero_before_flag                  9.629474                        NaN                   -4.022839               -10.318789
+                binary__type_transfer_flag                  1.029766                   0.945169                    0.682553                 0.048099
+                  binary__zero_amount_flag                       NaN                        NaN                         NaN                10.323729
+                      continuous__hour_cos                  0.673610                   0.665540                    0.742201                 0.503114
+                      continuous__hour_sin                  0.676123                   0.636598                    0.642206                 0.579253
+                    continuous__log_amount                 -0.920056                  -0.595602                    0.344771                 2.709394
+            continuous__log_oldbalanceDest                 -0.628328                  -0.471659                         NaN                -1.281756
+             continuous__log_oldbalanceOrg                  6.371742                   4.352786                         NaN               -11.349456
+
+INTERPRETATION FRAMEWORK
+
+Model A reproduces the Step 8 baseline.
+
+Model B removes zero-balance indicators while retaining continuous log balances. If performance remains close to Model A, the simpler specification is preferred for coefficient stability.
+
+Model C removes continuous balance amounts and retains only simple zero-balance flags. This measures how much discrimination comes from balance-state indicators alone.
+
+Model D deliberately introduces the zero-amount flag and amount-exceeds-origin-balance flag. These variables showed extremely strong PaySim-specific relationships in prior EDA. A large performance jump should therefore be interpreted as evidence of synthetic-data mechanism exploitation, not automatically as superior real-world generalisability.
+
+All models use exactly the same chronological Train / Validation / Test periods.
+
+Each classification threshold is selected independently on validation data using F2 and is then applied once to the untouched test period.

@@ -1,0 +1,16 @@
+Issue,Proposed_Action,Reason
+Missing values,Investigate; remove/impute only if required,No assumption should be made before profiling
+Exact duplicate rows,Remove exact duplicates if any exist,Duplicates can bias volume and model results
+Negative transaction amount,Treat as invalid and exclude if found,Transaction amounts should not be negative
+Zero transaction amount,Investigate before deciding,Zero may represent a valid or unusual transaction
+Invalid transaction type,Treat as invalid and exclude if found,Only five documented transaction types expected
+Invalid step,Treat as invalid and exclude if found,Dataset period is steps 1 through 743
+Invalid fraud label,Treat as invalid because target must be binary,isFraud is the binary target
+Invalid existing flag,Treat as invalid if outside 0/1,Existing flag must be 0 or 1
+Blank account identifiers,Investigate and exclude if truly missing,Identifiers support traceability
+Zero balances,RETAIN - zero is not the same as missing,Zero balances can be valid structural values
+Balance inconsistencies,RETAIN and create diagnostic flags,"Mismatch may reflect simulation/business behaviour, not bad data"
+Very large transaction amounts,RETAIN - important for fraud analysis,Fraud cases are disproportionately high value
+Post-transaction balance fields,Keep for EDA but exclude from primary model,They describe balances after transaction completion
+Raw account identifiers,Keep as identifiers; exclude raw IDs from model,High-cardinality raw IDs do not generalise well
+CASH_IN / DEBIT / PAYMENT,Keep in master analytical dataset,Required for overall reporting even though fraud is absent in them

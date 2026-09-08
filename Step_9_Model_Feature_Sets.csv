@@ -1,0 +1,35 @@
+Model,Feature,Feature_Type,Purpose
+Model_A_Current_Baseline,log_amount,Continuous,Step 8 baseline with both log balances and zero-balance flags.
+Model_A_Current_Baseline,log_oldbalanceOrg,Continuous,Step 8 baseline with both log balances and zero-balance flags.
+Model_A_Current_Baseline,log_oldbalanceDest,Continuous,Step 8 baseline with both log balances and zero-balance flags.
+Model_A_Current_Baseline,hour_sin,Continuous,Step 8 baseline with both log balances and zero-balance flags.
+Model_A_Current_Baseline,hour_cos,Continuous,Step 8 baseline with both log balances and zero-balance flags.
+Model_A_Current_Baseline,type_transfer_flag,Binary,Step 8 baseline with both log balances and zero-balance flags.
+Model_A_Current_Baseline,high_value_200k_flag,Binary,Step 8 baseline with both log balances and zero-balance flags.
+Model_A_Current_Baseline,origin_zero_before_flag,Binary,Step 8 baseline with both log balances and zero-balance flags.
+Model_A_Current_Baseline,destination_zero_before_flag,Binary,Step 8 baseline with both log balances and zero-balance flags.
+Model_B_Log_Balances_Only,log_amount,Continuous,Tests whether strong performance remains after removing redundant zero-balance indicators.
+Model_B_Log_Balances_Only,log_oldbalanceOrg,Continuous,Tests whether strong performance remains after removing redundant zero-balance indicators.
+Model_B_Log_Balances_Only,log_oldbalanceDest,Continuous,Tests whether strong performance remains after removing redundant zero-balance indicators.
+Model_B_Log_Balances_Only,hour_sin,Continuous,Tests whether strong performance remains after removing redundant zero-balance indicators.
+Model_B_Log_Balances_Only,hour_cos,Continuous,Tests whether strong performance remains after removing redundant zero-balance indicators.
+Model_B_Log_Balances_Only,type_transfer_flag,Binary,Tests whether strong performance remains after removing redundant zero-balance indicators.
+Model_B_Log_Balances_Only,high_value_200k_flag,Binary,Tests whether strong performance remains after removing redundant zero-balance indicators.
+Model_C_Balance_Flags_Only,log_amount,Continuous,Tests whether simple balance-state flags provide sufficient signal without continuous balance amounts.
+Model_C_Balance_Flags_Only,hour_sin,Continuous,Tests whether simple balance-state flags provide sufficient signal without continuous balance amounts.
+Model_C_Balance_Flags_Only,hour_cos,Continuous,Tests whether simple balance-state flags provide sufficient signal without continuous balance amounts.
+Model_C_Balance_Flags_Only,type_transfer_flag,Binary,Tests whether simple balance-state flags provide sufficient signal without continuous balance amounts.
+Model_C_Balance_Flags_Only,high_value_200k_flag,Binary,Tests whether simple balance-state flags provide sufficient signal without continuous balance amounts.
+Model_C_Balance_Flags_Only,origin_zero_before_flag,Binary,Tests whether simple balance-state flags provide sufficient signal without continuous balance amounts.
+Model_C_Balance_Flags_Only,destination_zero_before_flag,Binary,Tests whether simple balance-state flags provide sufficient signal without continuous balance amounts.
+Model_D_Enhanced_PaySim,log_amount,Continuous,Stress-test model including highly predictive PaySim-specific transaction-balance behaviour.
+Model_D_Enhanced_PaySim,log_oldbalanceOrg,Continuous,Stress-test model including highly predictive PaySim-specific transaction-balance behaviour.
+Model_D_Enhanced_PaySim,log_oldbalanceDest,Continuous,Stress-test model including highly predictive PaySim-specific transaction-balance behaviour.
+Model_D_Enhanced_PaySim,hour_sin,Continuous,Stress-test model including highly predictive PaySim-specific transaction-balance behaviour.
+Model_D_Enhanced_PaySim,hour_cos,Continuous,Stress-test model including highly predictive PaySim-specific transaction-balance behaviour.
+Model_D_Enhanced_PaySim,type_transfer_flag,Binary,Stress-test model including highly predictive PaySim-specific transaction-balance behaviour.
+Model_D_Enhanced_PaySim,high_value_200k_flag,Binary,Stress-test model including highly predictive PaySim-specific transaction-balance behaviour.
+Model_D_Enhanced_PaySim,origin_zero_before_flag,Binary,Stress-test model including highly predictive PaySim-specific transaction-balance behaviour.
+Model_D_Enhanced_PaySim,destination_zero_before_flag,Binary,Stress-test model including highly predictive PaySim-specific transaction-balance behaviour.
+Model_D_Enhanced_PaySim,zero_amount_flag,Binary,Stress-test model including highly predictive PaySim-specific transaction-balance behaviour.
+Model_D_Enhanced_PaySim,amount_exceeds_origin_balance_flag,Binary,Stress-test model including highly predictive PaySim-specific transaction-balance behaviour.

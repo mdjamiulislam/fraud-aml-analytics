@@ -1,0 +1,52 @@
+PROJECT 5 - STEP 5
+MASTER ANALYTICAL DATASET AND FEATURE ENGINEERING
+===========================================================================
+
+VALIDATION SUMMARY
+
+                        Metric        Value
+         Source rows processed 6.362620e+06
+        Master analytical rows 6.362620e+06
+           Master Parquet rows 6.362620e+06
+   Rows lost during processing 0.000000e+00
+     Source fraud transactions 8.213000e+03
+     Master fraud transactions 8.213000e+03
+   Full dataset fraud rate (%) 1.290820e-01
+      High-risk modelling rows 2.770409e+06
+        High-risk Parquet rows 2.770409e+06
+     High-risk modelling fraud 8.213000e+03
+      High-risk fraud rate (%) 2.964544e-01
+      Zero-amount transactions 1.600000e+01
+Zero-amount fraud transactions 1.600000e+01
+       Transactions above 200k 1.673570e+06
+         Master file size (MB) 4.470270e+02
+High-risk model file size (MB) 1.229596e+02
+
+FEATURE REGISTER
+
+                            Feature                                            Purpose                Primary_Model_Use
+                     transaction_id                             Unique transaction key           NO - traceability only
+                               step                               Simulation time step                        CANDIDATE
+                    transaction_day                             Derived simulation day                              YES
+                        hour_of_day                             Derived simulated hour                              YES
+                               type                               Transaction category                              YES
+                             amount                         Original transaction value                              YES
+                         log_amount                  Log-transformed transaction value                              YES
+                      oldbalanceOrg                     Pre-transaction origin balance                              YES
+                     oldbalanceDest                Pre-transaction destination balance                              YES
+                   zero_amount_flag                         Flags amount equal to zero                              YES
+               high_value_200k_flag                            Flags amount above 200k                              YES
+            origin_zero_before_flag       Flags zero origin balance before transaction                              YES
+       destination_zero_before_flag  Flags zero destination balance before transaction                              YES
+ amount_exceeds_origin_balance_flag      Flags transaction amount above origin balance                              YES
+            destination_is_merchant                    Identifies merchant destination                              YES
+     amount_to_origin_balance_ratio      Transaction amount relative to origin balance                        CANDIDATE
+amount_to_destination_balance_ratio Transaction amount relative to destination balance                        CANDIDATE
+           origin_balance_error_abs            Retrospective origin balance diagnostic NO - post-transaction diagnostic
+       origin_balance_mismatch_flag           Retrospective balance mismatch indicator NO - post-transaction diagnostic
+                     newbalanceOrig                    Post-transaction origin balance            NO - post-transaction
+                     newbalanceDest               Post-transaction destination balance            NO - post-transaction
+                           nameOrig                              Raw origin identifier     NO - raw high-cardinality ID
+                           nameDest                         Raw destination identifier     NO - raw high-cardinality ID
+                     isFlaggedFraud                     Existing rule-based fraud flag              NO - benchmark only
+                            isFraud                                Actual fraud target                      TARGET ONLY
